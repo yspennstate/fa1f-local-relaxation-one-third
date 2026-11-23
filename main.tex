@@ -1,0 +1,570 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm,booktabs}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:\nolinkurl{#1}}}
+\setlength{\emergencystretch}{2.5em}
+
+\title[FA-1f above density one third]{Local relaxation of the one-dimensional Fredrickson--Andersen model for
+infection density above one third}
+\author{Yitzchak Shmalo}
+\address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem, Jerusalem, Israel}
+\email{yspennstate@gmail.com}
+\date{November 2026}
+\subjclass[2020]{60K35, 82C22}
+\keywords{kinetically constrained models, Fredrickson--Andersen model, relaxation to equilibrium, Lyapunov function}
+
+\raggedbottom
+\begin{document}
+\begin{abstract}
+In the one-spin facilitated Fredrickson--Andersen model on $\Z$, let $q$ be the equilibrium density of infected sites.
+We show that for $q>1/3$ the law of the process seen in a fixed finite window converges to equilibrium exponentially
+fast, up to an error equal to twice the probability that no infection starts within distance $vt$ of the origin, where
+$v=v(q)>0$. Hence both conjectures of Martinelli, Shapira and Toninelli hold for $q>1/3$: the process converges from every initial law that has an infection almost surely, and it converges
+exponentially fast when the law of the distance between the origin and the closest infection has an exponentially
+decaying tail. Previously this was known for $q>1/2$. The new
+ingredient is a Lyapunov function for a marked infection that follows the dynamics, corrected by the state of the site
+behind it; the rest follows a block argument of Blondel, Cancrini, Martinelli, Roberto and
+Toninelli.
+\end{abstract}
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+We write configurations as $\eta\in\{0,1\}^{\Z}$, with $\eta_x=0$ meaning that $x$ is infected and $\eta_x=1$ that it
+is healthy. For $q\in(0,1)$ we write $p=1-q$, and $\pi$ denotes the Bernoulli product measure under which each site is
+infected with probability $q$. The one-spin facilitated Fredrickson--Andersen model (FA-1f) \cite{FA84} has generator
+\begin{equation}\label{eq:gen}
+Lg(\eta)=\sum_{x\in\Z}\bigl(1-\eta_{x-1}\eta_{x+1}\bigr)\bigl(\pi_x(g)-g\bigr)(\eta),
+\end{equation}
+where $\pi_x(g)$ is the conditional mean of $g$ given all spins except the one at $x$. In words, each site is resampled
+from $\pi$ at rate one, but only while one of its two neighbours is infected. The measure $\pi$ is reversible. For a
+probability measure $\nu$ on configurations, the initial law, $\nu P_t g$ denotes the mean of $g$ at time $t$. A local
+function depends on the spins of a finite set of sites, its support. For a configuration $\eta$ and a site $x$ let
+\[
+R_x(\eta)=\min\{|x-y|:\ \eta_y=0\},\qquad R(\eta)=R_0(\eta),
+\]
+with $R_x=\infty$ when $\eta$ has no infection. Martinelli, Shapira and Toninelli \cite[Section~1.1]{MST25} state the
+following two conjectures.
+
+\begin{conjecture}\label{conj:1}
+Let $q\in(0,1)$. If $\nu(R<\infty)=1$, then $\nu P_t f\to\pi(f)$ as $t\to\infty$ for every local $f$.
+\end{conjecture}
+
+\begin{conjecture}\label{conj:2}
+Let $q\in(0,1)$. If $\nu(R>\rho)=O(e^{-\kappa\rho})$ as $\rho\to\infty$ for some $\kappa>0$, then for every local
+$f$ the convergence $\nu P_t f\to\pi(f)$ is exponentially fast.
+\end{conjecture}
+
+The configuration with no infection is frozen, which is why some infection must be present. The model is not
+attractive, and the constraint makes the dynamics degenerate, so neither monotone couplings nor the positive spectral
+gap of FA-1f in equilibrium and in finite boxes \cite{CMRT08,CMRT09} give convergence from initial laws that are singular with respect to $\pi$.
+
+For $q>1/2$, Blondel, Cancrini, Martinelli, Roberto and Toninelli establish exponential convergence
+\cite[Theorem~2.1]{BCMRT13}, under the assumption that $\sup_x\nu(\theta^{R_x})<\infty$ for some $\theta>1$. A single infection violates
+this assumption. Mountford and Valle \cite{MV19} treated a single infection, and initial laws as in
+Conjecture~\ref{conj:2}, for $q$ close to one, and Ertul \cite{Ert21} proved cutoff on a finite interval from every
+initial configuration for $q$ above a threshold that is roughly $0.76$. Exponential convergence for every $q$ is also known when the local
+densities of the initial law with respect to $\pi$ grow slowly enough; this is due to Cancrini, Martinelli, Schonmann
+and Toninelli \cite{CMST10}. In \cite{Shm26} the uniform assumption of \cite{BCMRT13} was replaced by one centred at the
+origin, which gives both conjectures for $q>1/2$, from every initial law. For the general case
+Gluchowski and Menz \cite{GM26}, who prove ergodicity for noisy variants of FA-1f and East, record Conjecture~\ref{conj:1}
+as open.
+
+\begin{theorem}\label{thm:main}
+Fix $q\in(1/3,1)$ and a finite set $S\subset\Z$. Then there exist $v,c,C>0$, which depend on $q$ and $S$ alone, with
+the following property: for each initial law $\nu$, each $f$ supported in $S$ and each time $t\ge0$,
+\begin{equation}\label{eq:main}
+\bigl|\nu P_tf-\pi(f)\bigr|\le\|f\|_\infty\bigl(Ce^{-ct}+2\,\nu(R>vt)\bigr).
+\end{equation}
+\end{theorem}
+
+\begin{corollary}\label{cor:conj}
+Conjectures~\ref{conj:1} and~\ref{conj:2} hold for every $q\in(1/3,1)$. Under the assumption of Conjecture~\ref{conj:2}
+the rate of convergence can be taken to be $\min\{c,\kappa v\}$. In particular, started from one infection at any site,
+the law of the spins in any finite window converges to its equilibrium law exponentially fast.
+\end{corollary}
+
+The term $\nu(R>vt)$ cannot be removed: when the only infection is at distance $\rho$ from $S$, the spins in $S$ cannot
+change until a sequence of clock rings has crossed the gap, and this takes a time proportional to $\rho$
+(Lemma~\ref{lem:speed}).
+
+\emph{The method.} The proof follows the scheme of \cite[Section~3]{BCMRT13}. Near the end of the time interval one
+works in a box of length of order $t$, cut into blocks of length proportional to $t$. As long as every block contains an
+infection, the process agrees with a reversible chain whose spectral gap and logarithmic Sobolev constant are controlled by
+a result of Cancrini, Martinelli, Roberto and Toninelli \cite[Proposition~3.4]{BCMRT13}, and that chain mixes. What has to be
+supplied is a bound on the probability that some block is nearly free of infections, and for this \cite{BCMRT13} uses an
+exponential moment of the distance $R_x$, which has a negative drift only for $q>1/2$ \cite[Proposition~4.1]{BCMRT13}.
+Indeed, the nearest infection to $x$ moves towards $x$ at rate $q$ and away from it at rate up to $p$.
+
+We follow instead one infection, the \emph{marked infection}, which moves towards $x$ whenever its neighbour on the side of
+$x$ is infected and which, when it heals, steps to an infected neighbour (Definition~\ref{def:mark}). Its distance $D$
+from $x$ still decreases at rate $q$ and increases at rate up to $p$. The gain comes from the site behind the mark: while that site is healthy, the mark
+cannot step back, and while it is infected, it can heal in the next step. With $b$ the indicator that the site behind the mark
+is infected, the function $W=D+ub$ with $u=p/(1+q)$ has drift at most $-q(3q-1)/(1+q)$ for every configuration
+(Lemma~\ref{lem:drift}). This is negative exactly when $q>1/3$, and Remark~\ref{rem:third} shows that no choice of $u$ does
+better. The same holds in a box whose exterior is frozen infected, which is the setting in which the block argument is run.
+
+Table~\ref{tab:map} shows where each step is carried out.
+
+\begin{table}[ht]
+\caption{Organisation of the paper: for each section, the step of the proof it contains and the statements proved there.}\label{tab:map}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Section & Content & Main statements\\
+\midrule
+\ref{sec:prelim} & graphical construction, box process, finite speed & Lemma~\ref{lem:speed}\\
+\ref{sec:mark} & the marked infection and its drift & Lemmas~\ref{lem:drift}, \ref{lem:moment}\\
+\ref{sec:box} & block argument in a box with infected exterior & Propositions~\ref{prop:gap}, \ref{prop:box}\\
+\ref{sec:proof} & proof of the main results & Theorem~\ref{thm:main}, Corollary~\ref{cor:conj}\\
+\ref{sec:remarks} & why the method stops at $q=1/3$ & Remark~\ref{rem:third}\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Construction and finite speed}\label{sec:prelim}
+
+This section fixes the graphical construction used throughout, defines the process in a box whose exterior is frozen
+infected, and proves the finite speed estimate that lets us compare processes agreeing on an interval. Every constant
+($c_0$, $c_1$, $C_1$, $C'$ and the others) is positive, is fixed where it is introduced, and keeps that value; no
+constant changes from line to line.
+
+\subsection{Clocks and spins}
+Every site $x\in\Z$ carries a Poisson clock of rate one, and with its $j$-th ring we associate a spin $\omega_{x,j}$, equal
+to $0$ with probability $q$ and to $1$ with probability $p$; all clocks and spins are independent. When the clock of $x$
+rings for the $j$-th time, the spin at $x$ becomes $\omega_{x,j}$ provided a neighbour of $x$ is infected just before the
+ring; otherwise nothing changes. Because the constraint involves only the two nearest-neighbour sites, this rule determines the evolution on $\Z$
+almost surely for every starting configuration \cite{CMRT08}, and the result is the process with generator
+\eqref{eq:gen}. We write $\PP_\eta$, $\E_\eta$ for its law and expectation from $\eta$, and $P_tg(\eta)=\E_\eta g(\eta(t))$.
+
+\subsection{Boxes with infected exterior}
+For an interval $\Lambda=\{\alpha,\dots,\beta\}$ of $\Z$ we use the process on $\{0,1\}^\Lambda$ in which the two exterior
+neighbours $\alpha-1$ and $\beta+1$ count as infected forever and are never updated, and in which each site of $\Lambda$ follows the
+rule above with the clocks and spins of the previous paragraph. We call it the \emph{box process} on $\Lambda$. It is a
+continuous-time Markov chain on a finite set and is reversible with respect to the product measure $\pi_\Lambda$, the
+restriction of $\pi$ to $\Lambda$. For $\xi\in\{0,1\}^\Lambda$ and $x\in\Lambda$ $R^\Lambda_x(\xi)$ denotes how far $x$
+lies from the nearest site that is either infected in $\xi$ or equal to $\alpha-1$ or $\beta+1$. If $\eta$ agrees with
+$\xi$ on $\Lambda$, then $R^\Lambda_x(\xi)\le R_x(\eta)$.
+
+\subsection{Finite speed}
+The next lemma is used twice to compare processes that agree on an interval and differ outside it.
+
+\begin{lemma}\label{lem:speed}
+Consider an interval $I\subset\Z$ and a finite set $S\subset I$ at distance $d\ge1$ from $\Z\setminus I$. Suppose that
+$\eta(\cdot)$ and $\zeta(\cdot)$ are built from the same clocks and spins on a time interval $[\tau_0,\tau_0+w]$, such that
+at every site of $I$ both follow the update rule above, while outside $I$ they evolve in an arbitrary way adapted to the
+clocks and spins. If $\eta(\tau_0)$ and $\zeta(\tau_0)$ agree on $I$, then the probability that they differ at some site
+of $S$ at some time of $[\tau_0,\tau_0+w]$ is at most $|S|(2w)^d/d!$, and at most $|S|4^{-d}$ when $d\ge8ew$.
+\end{lemma}
+
+\begin{proof}
+Say that a site $y$ is in conflict at time $\tau$ if the two spins at $y$ differ at $\tau$. A site of $I$ that is not in
+conflict at time $\tau_0$ can enter conflict only at a ring of its own clock. Both processes then use the same spin, so
+the constraints differed just before the ring, and one of the two neighbours was in conflict at that moment. Suppose some
+$y_0\in S$ is in conflict at a time of $[\tau_0,\tau_0+w]$. Take the ring at which $y_0$ last entered conflict and a
+neighbour $y_1$ in conflict just before it; if $y_1\in I$, repeat with $y_1$ and that earlier time. This gives a
+nearest-neighbour path $y_0,y_1,\dots$ and ring times of the clocks of $y_0,y_1,\dots$ that decrease strictly inside
+$[\tau_0,\tau_0+w]$, and the path leaves $I$ after at least $d$ steps. Hence for some nearest-neighbour path
+$y_0,\dots,y_{d-1}$ with $y_0\in S$ there are rings of the clocks of $y_0,\dots,y_{d-1}$ at decreasing times in
+$[\tau_0,\tau_0+w]$. For a fixed path the expected number of such $d$-tuples of rings is $w^d/d!$ (this holds also if the
+path revisits sites), and there are at most $|S|2^{d}$ paths. The bound follows from Markov's inequality, and the second
+bound from $d!\ge(d/e)^d$.
+\end{proof}
+
+\section{The marked infection}\label{sec:mark}
+
+Throughout this section $\Lambda=\{\alpha,\dots,\beta\}$ is an interval, the box process on $\Lambda$ is written $\xi(\cdot)$, and
+$x\in\Lambda$ is fixed. The two \emph{frozen sites} $\alpha-1$ and $\beta+1$ count as infected. A site of $\Lambda\cup\{\alpha-1,\beta+1\}$
+is called infected if it is frozen or infected in $\xi$.
+
+\begin{definition}\label{def:mark}
+A \emph{mark} is a site $y\in\Lambda\cup\{\alpha-1,\beta+1\}$ that is infected. For $y\ne x$ let $y^+=y+\operatorname{sign}(x-y)$
+be the neighbour of $y$ on the side of $x$ and $y^-=y-\operatorname{sign}(x-y)$ the other neighbour; note that $y^+\in\Lambda$.
+At each ring of a clock the box process is updated first, and the mark then moves according to the following rules; it
+moves at no other time.
+\begin{enumerate}
+\item If $y\ne x$ and the clock of $y^+$ rings with spin $0$, the mark moves to $y^+$. (The update at $y^+$ is
+allowed, since $y$ is infected, so $y^+$ is infected afterwards; it may have been infected before.)
+\item If $y\in\Lambda$, $y\ne x$, and $y$ heals at a ring of its clock, the mark moves to $y^+$ if $y^+$ is infected and
+to $y^-$ otherwise.
+\item If $y=x$ and $x$ heals, the mark moves to $x-1$ if that site is infected and to $x+1$ otherwise.
+\end{enumerate}
+\end{definition}
+
+A site heals only when one of its neighbours is infected, so in rules (2) and (3) the new position is infected, and in rule
+(1) it is infected by construction. Hence the mark is always infected, and the pair $(\xi(\tau),y(\tau))$ is a Markov chain
+on a finite set. A frozen mark moves only by rule (1). Let $D=|y-x|$ and let $b=1$ if $y\in\Lambda$, $y\ne x$ and $y^-$ is
+infected (frozen or not), and $b=0$ otherwise; thus $b=0$ when $y=x$ and when the mark is frozen. Set
+\begin{equation}\label{eq:consts}
+u=\frac{p}{1+q},\qquad W=D+ub,\qquad \gamma=\frac{q(3q-1)}{1+q}.
+\end{equation}
+Write $\cL$ for the generator of the pair chain.
+
+\begin{lemma}\label{lem:drift}
+Let $q\in(1/3,1)$. Then $\gamma>0$, and $\cL W\le-\gamma$ at every state with $D\ge2$. Moreover, at every state, $D$ and
+$b$ change only at rings of the clocks of $y^-$, $y$ and $y^+$ (of $x$ alone when $y=x$), and every change of $W$ has
+absolute value at most $2$.
+\end{lemma}
+
+\begin{proof}
+The last two statements are read off from Definition~\ref{def:mark}: the mark moves only at rings of the clocks of $y$ and
+$y^+$, the value of $b$ depends on the spin at $y^-$ and on the position of the mark, and a move changes $D$ by one and $b$
+by at most one, while $u<1$. Let $D\ge2$, so that $y^+\ne x$ and the site $y^+$ is not frozen. We consider four cases and
+list the transitions that change $W$, with their rates and the changes of $W$; rings not listed leave $D$ and $b$
+unchanged. We use the identities
+\[
+-q+2qu=-\gamma,\qquad -q+p(1-u)=-\gamma,
+\]
+which follow from $1-2u=(3q-1)/(1+q)$ and $1-u=2q/(1+q)$.
+
+\emph{Case 1: $y\in\Lambda$, $y^-\in\Lambda$ and $y^-$ is healthy ($b=0$).} A ring of the clock of $y^+$ with spin $0$
+(rate $q$) moves the mark to $y^+$, whose rear neighbour is now $y$, which is infected: the change is $-1+u$. A ring of
+the clock of $y^-$ with spin $0$ (rate $q$) infects $y^-$, which is allowed since $y$ is infected: the change is $+u$.
+The mark heals only if $y^+$ is infected, since $y^-$ is healthy; it then moves to $y^+$ and leaves the healthy site $y$
+behind it, so the change is $-1$. The drift is at most $q(-1+u)+qu=-\gamma$.
+
+\emph{Case 2: $y\in\Lambda$, $y^-\in\Lambda$ and $y^-$ is infected ($b=1$).} A ring of the clock of $y^+$ with spin $0$
+(rate $q$) moves the mark forward with $y$ infected behind it: the change is $-1$. A ring of the clock of $y^-$ with spin
+$1$ (rate $p$) heals $y^-$, which is allowed since $y$ is infected: the change is $-u$. A ring of the clock of $y$ with
+spin $1$ (rate $p$) heals the mark. If $y^+$ is infected the mark moves forward and the change is $-1-u$; otherwise it
+moves to $y^-$, its new value of $b$ is at most one, and the change is at most $+1$. The drift is at most
+$-q-pu+p=-\gamma$.
+
+\emph{Case 3: $y\in\Lambda$ and $y^-$ is frozen ($b=1$).} The forward move is as in Case 2, with change $-1$ at rate $q$.
+The site $y^-$ never heals. If the mark heals and $y^+$ is healthy, it moves to the frozen site $y^-$, where $b=0$, so the
+change is $1-u$; if $y^+$ is infected the change is $-1-u$. The drift is at most $-q+p(1-u)=-\gamma$.
+
+\emph{Case 4: the mark is frozen ($b=0$).} The only move is rule (1), at rate $q$, after which the mark is at $y^+\in
+\Lambda$ with the frozen site behind it, so $b=1$ and the change is $-1+u$. The drift is $-q(1-u)=-2q^2/(1+q)$, which is
+at most $-\gamma$ because $2q^2\ge3q^2-q$ for $q\le1$.
+\end{proof}
+
+\begin{lemma}\label{lem:moment}
+Let $q\in(1/3,1)$ and fix $a\in(0,1]$ with $12e^2a\le\gamma$. Put $\lambda=a\gamma/2$ and $K=3e^4+e^2$. For every
+initial state of the pair chain and every $\tau\ge0$,
+\begin{equation}\label{eq:moment}
+\E\,e^{aR^\Lambda_x(\xi(\tau))}\le\E\,e^{aW(\tau)}\le e^{-\lambda\tau}\,\E\,e^{aW(0)}+\frac K\lambda .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The first inequality holds because the mark is infected, so $R^\Lambda_x\le D\le W$. Let $g=e^{aW}$. For $|z|\le2$ we have
+$e^z-1\le z+\tfrac12z^2e^{|z|}$, so a change $\Delta$ of $W$ changes $g$ by at most $g\,(a\Delta+2e^2a^2)$, since $a\le1$.
+By Lemma~\ref{lem:drift} the transitions that change $W$ have total rate at most three. At a state with $D\ge2$ this gives
+\[
+\cL g\le g\,\bigl(a\,\cL W+6e^2a^2\bigr)\le g\,\Bigl(-a\gamma+\frac{a\gamma}2\Bigr)=-\lambda g.
+\]
+At a state with $D\le1$ we have $W\le2$ and every change of $W$ is at most $2$, so $\cL g\le3e^{4a}\le3e^4$, while
+$\lambda g\le e^2$ because $\lambda\le1/2$ and $g\le e^{2a}\le e^2$. Hence $\cL g\le-\lambda g+K$ at every state. The pair chain has finitely many
+states, so $\frac{d}{d\tau}\E g(\tau)=\E\cL g(\tau)\le-\lambda\E g(\tau)+K$, and the second inequality follows.
+\end{proof}
+
+\section{Relaxation in a box}\label{sec:box}
+
+This section is the block argument of \cite[Section~3]{BCMRT13}, written for an initial law given through the probability
+of nearly empty blocks; we include the proof because the estimate on leaving the good set is used in a form slightly
+different from \cite[Proposition~3.1]{BCMRT13}. Let $\Lambda$ be an interval partitioned into $k$ consecutive intervals
+$\Lambda_1,\dots,\Lambda_k$, the blocks, each of length between $\ell$ and $M$. Let
+\[
+B=\{\xi:\ \text{each block contains an infection of }\xi\}
+\]
+and
+\[
+B_2=\{\xi:\ \text{each block contains at least two infections of }\xi\}.
+\]
+
+\begin{proposition}[{\cite[Proposition~3.4]{BCMRT13}, \cite[Theorem~6.4]{CMRT09}}]\label{prop:gap}
+Let $q\in(0,1)$. There is $c_0=c_0(q)>0$ with the following property. Let $A$ be an interval, let $\Omega_A^*$ be the set
+of configurations on $A$ with at least one infection, and let $\pi_A^*=\pi_A(\cdot\mid\Omega_A^*)$. The chain on
+$\Omega_A^*$ in which each site of $A$ is resampled from $\pi$ at rate one while it has an infected neighbour in $A$ (the
+exterior counting as healthy), has spectral gap at least $c_0$ and logarithmic Sobolev constant at most $|A|/c_0$ with
+respect to $\pi_A^*$.
+\end{proposition}
+
+Note that $\Omega_A^*$ is closed for this chain: the last infection of $A$ has no infected neighbour and cannot heal.
+
+\begin{proposition}\label{prop:box}
+Let $q\in(0,1)$. There is $c_1=c_1(q)>0$ such that the following holds. Let $\Lambda$, the blocks $\Lambda_1,\dots,\Lambda_k$ and the sets $B$, $B_2$ be as at the start of this section, with
+$kp^\ell\le1/2$, let $f$ have support in $\Lambda$, let $h>0$, and let $\xi(\cdot)$ be the box process on $\Lambda$ with
+initial law $\mu$. Put $\varepsilon=\sup_{0\le w\le h}\PP_\mu(\xi(w)\notin B_2)$. Then
+\[
+\bigl|\E_\mu f(\xi(h))-\pi(f)\bigr|\le\|f\|_\infty\Bigl(2(1+kh)\varepsilon+4kp^\ell+
+2\exp\Bigl\{-\frac{c_0h}2+|\Lambda|\log\frac1{\min(p,q)}\,e^{-c_1h/(2M)}\Bigr\}\Bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+\emph{The chain on $B$.} Let $\hat\xi(\cdot)$ be the chain on $B$ that uses the clocks and spins of the box process and
+performs each update of the box process except those that would leave $B$, which it ignores. The box process satisfies
+detailed balance with respect to $\pi_\Lambda$, because the constraint at a site does not depend on the spin at that site.
+Removing the transitions out of $B$ keeps detailed balance on $B$, so $\hat\xi$ is reversible with respect to
+$\hat\pi=\pi_\Lambda(\cdot\mid B)$. This measure is the product over the blocks of $\pi^*_{\Lambda_i}$, in the notation of
+Proposition~\ref{prop:gap}.
+
+Consider on $B$ the product chain in which each block evolves independently as the chain of Proposition~\ref{prop:gap} on
+$\Omega^*_{\Lambda_i}$. Every transition of the product chain is a transition of $\hat\xi$ with the same rate: if a site
+has an infected neighbour within its block, it has one in $\Lambda\cup\{\alpha-1,\beta+1\}$, and the result stays in $B$. Both
+chains are reversible with respect to $\hat\pi$, so the Dirichlet form of $\hat\xi$ dominates that of the product chain.
+Spectral gaps and logarithmic Sobolev constants tensorize \cite{DSC96}, so the product chain, and hence $\hat\xi$, has
+gap at least $c_0$ and logarithmic Sobolev constant at most $M/c_0$. By Gross's theorem \cite[Theorem~3.5]{DSC96} there is
+$c_1=c_1(q)>0$ such that the semigroup $\hat P$ of $\hat\xi$ satisfies $\|\hat P_\tau G\|_{L^r(\hat\pi)}\le\|G\|_{L^2(\hat\pi)}$
+for $r=1+e^{c_1\tau/M}$.
+
+\emph{Mixing of $\hat\xi$.} Let $F=f-\hat\pi(f)$, so that $\|F\|_{L^2(\hat\pi)}\le2\|f\|_\infty$, and let $r=1+e^{c_1h/(2M)}$.
+Every state of $B$ has $\hat\pi$-probability at least $\min(p,q)^{|\Lambda|}$, and for any function $G$ on $B$ and any
+state $\sigma$, $|G(\sigma)|\le\hat\pi(\sigma)^{-1/r}\|G\|_{L^r(\hat\pi)}$. Using the gap on $[0,h/2]$ and hypercontractivity
+on $[h/2,h]$,
+\begin{align*}
+\|\hat P_hF\|_\infty&\le\min(p,q)^{-|\Lambda|/r}\,\|\hat P_{h/2}(\hat P_{h/2}F)\|_{L^r(\hat\pi)}
+\le\min(p,q)^{-|\Lambda|/r}\,\|\hat P_{h/2}F\|_{L^2(\hat\pi)}\\
+&\le2\|f\|_\infty\exp\Bigl\{|\Lambda|\log\frac1{\min(p,q)}\,e^{-c_1h/(2M)}-\frac{c_0h}2\Bigr\}.
+\end{align*}
+
+\emph{Coupling.} Start $\hat\xi$ from $\xi(0)$ if $\xi(0)\in B$ and from the configuration with every site infected
+otherwise, and run both chains with the same clocks and spins. They agree up to time $h$ unless $\xi(0)\notin B$, or some
+ring at a time $w\le h$ would take $\xi(w-)=\hat\xi(w-)$ out of $B$. Such a ring heals a site that is the only infection
+of its block, so $\xi(w-)\notin B_2$, and the ring belongs to the clock of one of at most $k$ sites. The rings of each clock
+form a Poisson process of rate one and the event that its site is the only infection of its block just before time $w$ is
+predictable, so the expected number of such rings in $[0,h]$ is at most $\int_0^hk\,\PP_\mu(\xi(w)\notin B_2)\,dw\le kh
+\varepsilon$. Since $B_2\subset B$ and the supremum defining $\varepsilon$ includes $w=0$, also
+$\PP_\mu(\xi(0)\notin B)\le\varepsilon$. Hence the two chains differ at time $h$ with probability at most $(1+kh)\varepsilon$, and
+\[
+\bigl|\E_\mu f(\xi(h))-\E\,\hat P_hf(\hat\xi(0))\bigr|\le2\|f\|_\infty(1+kh)\varepsilon .
+\]
+
+\emph{Conditioning.} A block of length at least $\ell$ is free of infections with $\pi$-probability at most $p^\ell$, so
+$\pi_\Lambda(B^c)\le kp^\ell\le1/2$. Since the support of $f$ lies in $\Lambda$,
+\[
+\bigl|\hat\pi(f)-\pi(f)\bigr|=\frac{|\pi_\Lambda((f-\pi(f))\mathbf 1_{B^c})|}{\pi_\Lambda(B)}\le4\|f\|_\infty\,kp^\ell ,
+\]
+where $\mathbf 1_{B^c}$ is the indicator function of $B^c$.
+Writing $\hat P_hf=\hat\pi(f)+\hat P_hF$ and collecting the three estimates proves the proposition.
+\end{proof}
+
+\section{Proofs of the main results}\label{sec:proof}
+
+Throughout this section $q\in(1/3,1)$ is fixed, and $m\ge0$ is an integer such that $S\subset[-m,m]$. Take $u,\gamma$ from \eqref{eq:consts}, $a,\lambda,K$ from
+Lemma~\ref{lem:moment}, and $c_0,c_1$ from Propositions~\ref{prop:gap} and~\ref{prop:box}. Set
+\[
+\delta=\min\Bigl\{\frac12,\frac\lambda{64ea}\Bigr\},\qquad v=\frac\lambda{8a}=\frac\gamma{16},
+\]
+so that $a(8e\delta+v)\le\lambda/4$ and $\lambda(1-\delta)\ge\lambda/2$. Choose $\varepsilon_0\in(0,1)$ such that
+\begin{equation}\label{eq:eps}
+50\log\frac1{\min(p,q)}\,e^{-c_1/(4\varepsilon_0)}\le\frac{c_0}4 .
+\end{equation}
+For $t>0$ let
+\[
+h=\delta t,\quad s=t-h,\quad n=m+\lceil8eh\rceil,\quad \Lambda=\{-n,\dots,n\},\quad N=n+\lceil8et\rceil,\quad
+\Lambda'=\{-N,\dots,N\}.
+\]
+Divide $\Lambda$ into $k=\lceil|\Lambda|/(\varepsilon_0h)\rceil$ consecutive blocks of lengths $\lfloor|\Lambda|/k\rfloor$
+and $\lceil|\Lambda|/k\rceil$, and let $\ell$ and $M$ be these two numbers. Since $16eh\le|\Lambda|\le2m+16eh+3$, there
+is $h_0=h_0(q,m)$ such that for $h\ge h_0$ we have $|\Lambda|\le50h$, $k\le1+50/\varepsilon_0$,
+$\ell\ge\varepsilon_0h/2$, $M\le2\varepsilon_0h$ and $kp^\ell\le1/2$. All later constants are functions of $q$ and $m$ only.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Take $t$ with $\delta t\ge h_0$ and a configuration $\eta$ such that $R(\eta)\le vt$, and pick an infected site $y_0$
+of $\eta$ with $|y_0|\le vt$. Let $\eta(\cdot)$ be FA-1f on $\Z$ from $\eta$. Let $\zeta(\cdot)$ be the box process on
+$\Lambda'$ started from the restriction of $\eta$, and let $\xi(\cdot)$, on the time interval $[s,t]$, be the box process
+on $\Lambda$ started at time $s$ from the restriction of $\zeta(s)$; all three use the same clocks and spins.
+
+\emph{Step 1: two comparisons.} The processes $\eta$ and $\zeta$ follow the update rule at the sites of $\Lambda'$ and
+agree there at time $0$, and the distance from $S$ to $\Z\setminus\Lambda'$ is at least $N-m\ge8et$. The processes
+$\zeta$ and $\xi$ follow the rule at the sites of $\Lambda$ on $[s,t]$ and agree there at time $s$, and the distance from
+$S$ to $\Z\setminus\Lambda$ is at least $n-m\ge8eh$. By Lemma~\ref{lem:speed},
+\begin{equation}\label{eq:step1}
+\bigl|\E_\eta f(\eta(t))-\E f(\xi(t))\bigr|\le2\|f\|_\infty|S|\bigl(4^{-8et}+4^{-8eh}\bigr).
+\end{equation}
+
+\emph{Step 2: a moment bound at time $s$.} Let $x\in\Lambda$. Since $v<1\le8e$, the site $y_0$ lies in $\Lambda'$. Run the
+pair chain of Section~\ref{sec:mark} in the box $\Lambda'$, for the site $x$, with the mark started at $y_0$. Then
+$W(0)\le|x-y_0|+1\le m+2+(8e\delta+v)t$, and Lemma~\ref{lem:moment} gives
+\[
+\E\,e^{aR^{\Lambda'}_x(\zeta(s))}\le\exp\bigl\{a(m+2)+a(8e\delta+v)t-\lambda(1-\delta)t\bigr\}+\frac K\lambda
+\le e^{a(m+2)}+\frac K\lambda=:K_2 .
+\]
+
+\emph{Step 3: a moment bound on $[s,t]$.} Given the history up to time $s$, run the pair chain in the box $\Lambda$, for
+the site $x$, with the mark started at time $s$ at an infected site of $\Lambda\cup\{\pm(n+1)\}$ nearest to $x$. Since
+$\xi(s)$ agrees with $\zeta(s)$ on $\Lambda$ and the sites $\pm(n+1)$ count as infected for $\xi$, its initial value of
+$W$ is at most $R^\Lambda_x(\xi(s))+1\le R^{\Lambda'}_x(\zeta(s))+1$. By the Markov property at time $s$, Lemma~\ref{lem:moment}
+and Step 2, for $0\le w\le h$,
+\[
+\E\,e^{aR^\Lambda_x(\xi(s+w))}\le e^aK_2+\frac K\lambda=:K_3,\qquad\text{so}\qquad
+\PP\bigl(R^\Lambda_x(\xi(s+w))\ge j\bigr)\le K_3e^{-aj}\quad(j\ge0).
+\]
+
+\emph{Step 4: nearly empty blocks.} Cut each block into a left and a right half of lengths at least $\lfloor\ell/2\rfloor$,
+and let $x$ run over the $2k$ sites, one in the middle of each half. A block with at most one infection has a half with no infection;
+the middle site of that half is at distance at least $\ell/4-1$ from every infected site, frozen sites included, because all of
+these lie outside the half. By Step 3 and $\ell\ge\varepsilon_0h/2$, for $0\le w\le h$,
+\[
+\PP\bigl(\xi(s+w)\notin B_2\bigr)\le2kK_3e^{a}e^{-a\varepsilon_0h/8}.
+\]
+
+\emph{Step 5: conclusion.} Apply Proposition~\ref{prop:box} to $\xi$ on $[s,t]$, with $\mu$ the law of $\xi(s)$. Since
+$h/(2M)\ge1/(4\varepsilon_0)$ and $|\Lambda|\le50h$, condition \eqref{eq:eps} bounds the last term there by
+$2\|f\|_\infty e^{-c_0h/4}$, and with Step 4,
+\[
+\bigl|\E f(\xi(t))-\pi(f)\bigr|\le\|f\|_\infty\Bigl(4(1+kh)kK_3e^ae^{-a\varepsilon_0h/8}+4kp^{\varepsilon_0h/2}
++2e^{-c_0h/4}\Bigr).
+\]
+Together with \eqref{eq:step1} and $h=\delta t$ this gives $c,C_1>0$ with $|P_tf(\eta)-\pi(f)|\le C_1\|f\|_\infty e^{-ct}$
+for all $t\ge h_0/\delta$ and all $\eta$ with $R(\eta)\le vt$. Put $C=\max\{C_1,2e^{ch_0/\delta}\}$; since
+$|P_tf-\pi(f)|\le2\|f\|_\infty$ always,
+\begin{equation}\label{eq:pointwise}
+\sup_{\eta:\ R(\eta)\le vt}\bigl|P_tf(\eta)-\pi(f)\bigr|\le C\|f\|_\infty e^{-ct}\qquad(t\ge0).
+\end{equation}
+Integrate this bound against $\nu$ over $\{R\le vt\}$ and use $|P_tf-\pi(f)|\le2\|f\|_\infty$ on $\{R>vt\}$; the
+result is \eqref{eq:main}.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:conj}]
+When $\nu(R<\infty)=1$, the term $\nu(R>vt)$ tends to zero, and Conjecture~\ref{conj:1} follows from \eqref{eq:main}. Under
+the assumption of Conjecture~\ref{conj:2}, $\nu(R>vt)\le C'e^{-\kappa vt}$ for some $C'$ and all $t\ge0$, which gives the rate
+$\min\{c,\kappa v\}$. For one infection at a site $x_0$, $R=|x_0|$ and the second term in \eqref{eq:main} is zero once
+$t\ge|x_0|/v$.
+\end{proof}
+
+\section{The threshold one third}\label{sec:remarks}
+
+\begin{remark}\label{rem:third}
+Among functions of the form $D+ub$, the constant $u=p/(1+q)$ is the best one, and none has negative drift for $q\le1/3$.
+Indeed, in Case~1 of the proof of Lemma~\ref{lem:drift} with $y^+$ healthy, the drift of $D+ub$ equals $-q+2qu$, which is
+negative only if $u<1/2$. In Case~2 with $y^+$ healthy and $y^{--}=y^--\operatorname{sign}(x-y)$ infected, the mark
+retreats onto a site whose rear neighbour is infected, and the drift equals $-q-pu+p$, which is negative only if
+$u>(1-2q)/p$. Both conditions hold for some $u$ if and only if $(1-2q)/p<1/2$, that is $q>1/3$, and the value
+$u=p/(1+q)$ makes the two drifts equal. This is a limitation of the test function, not a property of the process: for
+$q\le1/3$ it is not known whether the two conjectures hold, even from a single infection. A function that also records the
+sites two steps behind the mark, or a mark that is allowed to jump to a more distant infection, might lower the threshold.
+\end{remark}
+
+\section*{Acknowledgments and funding}
+
+This work was done by multiple AI agents, Claude (Anthropic) and Codex (OpenAI), connected to Math
+Brain~\cite{MathBrainRepo} and working together inside the Brain framework~\cite{BrainFramework}, a shared, persistent
+memory in which the agents record claims, proofs, failed attempts and methods, retrieve one another's results,
+coordinate who works on what, and audit each other's work. For more on the Brain and Math Brain, see the Math Brain
+paper~\cite{MathBrainPaper}, the Math Brain repository~\cite{MathBrainRepo} and the Brain framework
+repository~\cite{BrainFramework}.
+
+The research presented in this paper was supported by the European Research Council (ERC) under the European
+Union's Horizon Europe research and innovation programme (grant agreement No.\ 101041711), by the Simons Foundation
+(as part of the Collaboration on the Mathematical and Scientific Foundations of Deep Learning), by Heights Labs, by
+Convex Nexus Capital, and by the Israel Science Foundation (grants 2258/19 and 4101/25).
+
+\section*{Code availability}
+
+The Python script in the directory \texttt{checks} of the paper's repository computes, in exact rational arithmetic, the
+drift of $W$ at every local configuration around the mark used in the proof of Lemma~\ref{lem:drift}, for $q=j/300$ with
+$100<j<300$, and checks that its maximum over configurations with $D\ge2$ equals $-\gamma$. It also checks the two
+drifts of Remark~\ref{rem:third}.
+
+\section*{Declaration of competing interest}
+
+The author holds equity in Heights Labs and Convex Nexus Capital and has a management role at Convex Nexus Capital.
+
+\section*{Declaration of generative AI and AI-assisted technologies}
+
+This paper is part of a broader research project on proving open problems with AI systems. The argument was found by an
+OpenAI Codex agent, checked by Anthropic Claude agents, which also wrote the computer check and drafted the text. The
+conjectures are due to Martinelli, Shapira and Toninelli \cite{MST25}, the block argument of Section~\ref{sec:box} is that
+of Blondel, Cancrini, Martinelli, Roberto and Toninelli \cite{BCMRT13}, and the spectral gap bound used there is due to
+Cancrini, Martinelli, Roberto and Toninelli \cite{CMRT09}. The author directed the work and is responsible for the content
+of the paper and for decisions concerning its dissemination.
+
+\appendix
+\section{Notation}\label{app:notation}
+
+\begin{center}
+\small
+\begin{tabular}{p{3.4cm}p{7.4cm}p{3.2cm}}
+\toprule
+Symbol & Meaning & First appears\\
+\midrule
+$\eta$, $\eta_x$ & a configuration on $\Z$ and its spin at $x$ ($0$ infected) & Section~\ref{sec:intro}\\
+$q$, $p$ & density of infected sites under $\pi$, and $1-q$ & Section~\ref{sec:intro}\\
+$\pi$, $\pi_x$ & product measure, conditional mean at $x$ & \eqref{eq:gen}\\
+$L$, $P_t$ & generator and semigroup of FA-1f & \eqref{eq:gen}\\
+$g$ & a function on configurations & \eqref{eq:gen}\\
+$\nu$ & initial law & Section~\ref{sec:intro}\\
+$\rho$, $\kappa$, $\theta$ & parameters in the conjectures and in prior results & Section~\ref{sec:intro}\\
+$\omega_{x,j}$ & spin carried by the $j$-th ring of the clock of $x$ & Section~\ref{sec:prelim}\\
+$\PP_\eta$, $\E_\eta$ & law and expectation of FA-1f from $\eta$ & Section~\ref{sec:prelim}\\
+$\alpha$, $\beta$, $\xi$ & endpoints of $\Lambda$, a configuration of the box process & Section~\ref{sec:prelim}\\
+$\zeta$, $\tau$, $\tau_0$ & a second process, time, initial time & Lemma~\ref{lem:speed}\\
+$R_x$, $R$ & distance from $x$, from $0$, to the nearest infection & Section~\ref{sec:intro}\\
+$S$, $f$ & finite set, function with support in $S$ & Theorem~\ref{thm:main}\\
+$v$, $c$, $C$ & constants of Theorem~\ref{thm:main} & Theorem~\ref{thm:main}\\
+$\Lambda$, $\pi_\Lambda$, $R^\Lambda_x$ & interval, restricted product measure, distance in the box & Section~\ref{sec:prelim}\\
+$I$, $d$, $w$ & interval, distance from $S$ to its complement, time span & Lemma~\ref{lem:speed}\\
+$y$, $y^\pm$, $D$, $b$ & mark, its neighbours, its distance to $x$, rear indicator & Definition~\ref{def:mark}\\
+$u$, $W$, $\gamma$ & weight, Lyapunov function, drift bound & \eqref{eq:consts}\\
+$\cL$ & generator of the pair chain & Section~\ref{sec:mark}\\
+$a$, $\lambda$, $K$ & constants of the moment bound & Lemma~\ref{lem:moment}\\
+$z$, $\Delta$ & real variable, a change of $W$ & proof of Lemma~\ref{lem:moment}\\
+$A$, $\Omega^*_A$, $\pi^*_A$ & interval, configurations with an infection, conditioned measure & Proposition~\ref{prop:gap}\\
+$F$, $G$, $r$, $\sigma$ & centred function, test function, exponent, state of $\hat\xi$ & proof of Proposition~\ref{prop:box}\\
+$\Lambda_i$, $k$, $\ell$, $M$ & blocks, their number, minimal and maximal length & Section~\ref{sec:box}\\
+$B$, $B_2$ & at least one, at least two infections per block & Section~\ref{sec:box}\\
+$c_0$, $c_1$ & gap and hypercontractivity constants & Propositions~\ref{prop:gap}, \ref{prop:box}\\
+$\hat\xi$, $\hat\pi$, $\hat P$ & chain on $B$, its reversible measure, its semigroup & Proposition~\ref{prop:box}\\
+$\delta$, $\varepsilon_0$, $h$, $s$, $n$, $\Lambda'$ & parameters of the proof & Section~\ref{sec:proof}\\
+$K_2$, $K_3$, $h_0$, $C_1$, $C'$ & constants of the proof & Section~\ref{sec:proof}\\
+$m$, $N$, $\mu$ & half-width of a window containing $S$, half-width of $\Lambda'$, initial law in a box & Sections~\ref{sec:box}, \ref{sec:proof}\\
+$x_0$ & site of a single initial infection & proof of Corollary~\ref{cor:conj}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{99}
+\bibitem{BCMRT13} O.~Blondel, N.~Cancrini, F.~Martinelli, C.~Roberto and C.~Toninelli, Fredrickson--Andersen one spin
+facilitated model out of equilibrium, \emph{Markov Process.\ Related Fields} \textbf{19} (2013), no.~3, 383--406.
+\arxiv{1205.4584}
+\bibitem{CMRT08} N.~Cancrini, F.~Martinelli, C.~Roberto and C.~Toninelli, Kinetically constrained spin models,
+\emph{Probab.\ Theory Related Fields} \textbf{140} (2008), no.~3--4, 459--504. \doi{10.1007/s00440-007-0072-3}
+\bibitem{CMRT09} N.~Cancrini, F.~Martinelli, C.~Roberto and C.~Toninelli, Facilitated spin models: recent and new
+results, in \emph{Methods of Contemporary Mathematical Statistical Physics}, Lecture Notes in Math.\ \textbf{1970},
+Springer, Berlin, 2009, 307--340.
+\bibitem{CMST10} N.~Cancrini, F.~Martinelli, R.~Schonmann and C.~Toninelli, Facilitated oriented spin models: some
+non equilibrium results, \emph{J.\ Stat.\ Phys.} \textbf{138} (2010), no.~6, 1109--1123.
+\doi{10.1007/s10955-010-9923-x}
+\bibitem{DSC96} P.~Diaconis and L.~Saloff-Coste, Logarithmic Sobolev inequalities for finite Markov chains, \emph{Ann.\
+Appl.\ Probab.} \textbf{6} (1996), no.~3, 695--750.
+\bibitem{Ert21} A.~Ertul, Cutoff for the Fredrickson--Andersen one spin facilitated model, preprint, 2021.
+\arxiv{2103.00019}
+\bibitem{FA84} G.~H.~Fredrickson and H.~C.~Andersen, Kinetic Ising model of the glass transition, \emph{Phys.\ Rev.\
+Lett.} \textbf{53} (1984), no.~13, 1244--1247. \doi{10.1103/PhysRevLett.53.1244}
+\bibitem{GM26} M.~Gluchowski and G.~Menz, Ergodicity without monotonicity: patch-positive spin systems, preprint, 2026.
+\arxiv{2611.17861}
+\bibitem{MST25} F.~Martinelli, A.~Shapira and C.~Toninelli, Long time behaviour of one facilitated kinetically
+constrained models: results and open problems, preprint, 2025. \arxiv{2510.20461}
+\bibitem{MV19} T.~Mountford and G.~Valle, Exponential convergence for the Fredrickson--Andersen one-spin facilitated
+model, \emph{J.\ Theoret.\ Probab.} \textbf{32} (2019), no.~1, 282--302. \doi{10.1007/s10959-018-0812-6}
+\bibitem{Shm26} Y.~Shmalo, Relaxation of the one-dimensional Fredrickson--Andersen model from a single infection at high
+density, preprint, 2026. \doi{10.5281/zenodo.24294310}
+\bibitem{MathBrainRepo} Y.~Shmalo, \emph{Math Brain: public snapshot, code and tests}, 2026.
+\url{https://github.com/yspennstate/math-brain-public/tree/5427734deee9be643d6dfbdd5e7d4baeeefe4a4a}
+\bibitem{MathBrainPaper} Y.~Shmalo, \emph{Math Brain: shared, auditable memory for multi-agent mathematical research},
+October 2026.
+\url{https://github.com/yspennstate/math-brain-public/tree/5427734deee9be643d6dfbdd5e7d4baeeefe4a4a/papers/math-brain-2026-10-24}
+\bibitem{BrainFramework} Y.~Shmalo, \emph{Brain Framework}, public software repository, 2026.
+\url{https://github.com/yspennstate/brain-framework-public/tree/46b935d26d5a2893f7790b60466387dd8da47ef5}
+\end{thebibliography}
+\end{document}
