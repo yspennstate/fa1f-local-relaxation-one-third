@@ -2,6 +2,8 @@
 
 Yitzchak Shmalo
 
+Zenodo: https://doi.org/10.5281/zenodo.24468800
+
 In the one-spin facilitated Fredrickson-Andersen model on Z with equilibrium density q of infected sites, the law of
 the process seen in a fixed finite window converges to equilibrium exponentially fast for every q > 1/3, up to an error
 equal to twice the probability that no infection starts within distance vt of the origin, where v = v(q) > 0. It
